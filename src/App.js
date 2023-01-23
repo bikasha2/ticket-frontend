@@ -10,7 +10,7 @@ import './App.css';
 
 
 function App() {
-  const token = window.localStorage.getItem('token')
+  // const token = window.localStorage.getItem('token')
   return (
     <>
       <Router>
