@@ -1,6 +1,6 @@
 # Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is live at https://63ce6956c2d9a550711ded69--sunny-profiterole-4f26f5.netlify.app/
 
 # Ticket-Managements
 
