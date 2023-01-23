@@ -10,19 +10,14 @@ function NoMatch() {
     }, 1000)
     return (
         <>
-
-
             <Box sx={{ display: 'flex', justifyContent: 'center', fontWeight: 'bold', fontSize: '70vh' }}>
                 <Box sx={{ fontSize: '30vh' }}>
                     404
                 </Box>
-
             </Box>
             <Typography sx={{ display: 'flex', justifyContent: 'center', fontWeight: 'bold', fontSize: '10vh' }}>
                 No Match Found
             </Typography>
-
-
         </>
     )
 }

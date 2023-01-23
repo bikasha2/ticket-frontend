@@ -15,7 +15,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
 const deleteTicketToast = () => {
-    toast.success('Ticket has been deleted successfully !',{
+    toast.success('Ticket has been deleted successfully !', {
         position: toast.POSITION.TOP_RIGHT
     });
 };
@@ -30,23 +30,22 @@ function ViewTicket() {
 
     const logout = (e) => {
         e.preventDefault()
-          localStorage.clear('token');
+        localStorage.clear('token');
         history.push('/')
     }
 
     function getData(token, config) {
         axios.get("https://ticket-backend-eqk1.onrender.com/api/tickets", config)
-        .then(function (response) {
-            setData(response.data)
-        })
+            .then(function (response) {
+                setData(response.data)
+            })
     }
 
 
 
     const deleteTicket = (e, id) => {
         e.preventDefault()
-        console.log(userToken)
-         // headers
+        // headers
         const config = {
             headers: {
                 "Content-Type": "application/json",
@@ -56,7 +55,6 @@ function ViewTicket() {
         // Request Body
         axios.delete(`https://ticket-backend-eqk1.onrender.com/api/ticket/${id}`, config)
             .then(function (response) {
-                console.log(response)
                 getData(userToken, config)
                 deleteTicketToast()
             })
@@ -65,8 +63,8 @@ function ViewTicket() {
 
 
     useEffect(() => {
-       const token = location.state
-       setUserToken(token)
+        const token = location.state
+        setUserToken(token)
         // headers
         const config = {
             headers: {
@@ -75,7 +73,7 @@ function ViewTicket() {
             }
         }
         // Request Body
-       getData(token, config)
+        getData(token, config)
     }, [location]);
 
 

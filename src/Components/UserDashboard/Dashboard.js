@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
@@ -18,19 +18,19 @@ function Dashboard() {
 
 
     const showToastMessage = () => {
-        toast.success('Ticket has been created successfully !',{
+        toast.success('Ticket has been created successfully !', {
             position: toast.POSITION.TOP_RIGHT
         });
     };
     const errorToastMessage = () => {
-        toast.error('Ticket has been created unsuccessfully !',{
+        toast.error('Ticket has been created unsuccessfully !', {
             position: toast.POSITION.TOP_RIGHT
         });
     };
 
     const history = useHistory()
 
-  
+
 
     function handleSubmit(e) {
         e.preventDefault()
@@ -46,19 +46,16 @@ function Dashboard() {
         // Request Body
         axios.post("https://ticket-backend-eqk1.onrender.com/api/tickets", body, config)
             .then(function (response) {
-                if(response.status === 200) {
-                    console.log(response);
+                if (response.status === 200) {
                     setEmail("");
                     setDescription("");
                     showToastMessage();
                 }
-               
-               
             }).catch((err) => {
                 errorToastMessage();
             })
-        
-       
+
+
 
     }
 
@@ -66,13 +63,13 @@ function Dashboard() {
         e.preventDefault()
         history.push('/login')
     }
-          
-    return(
-        <> 
-        <Box sx={{fontWeight: 'Bold', padding: '20px'}}>
-         <Button variant="contained" color='success' sx={{fontWeight: 'Bold'}} onClick={e => login(e)}>View Tickets</Button>
-        </Box>
-          <Grid
+
+    return (
+        <>
+            <Box sx={{ fontWeight: 'Bold', padding: '20px' }}>
+                <Button variant="contained" color='success' sx={{ fontWeight: 'Bold' }} onClick={e => login(e)}>View Tickets</Button>
+            </Box>
+            <Grid
                 container
                 spacing={0}
                 direction="column"
@@ -87,18 +84,18 @@ function Dashboard() {
                     </Typography>
                 </Grid>
             </Grid>
-           
-            <Box sx={{marginTop: '100px',display: 'flex', justifyContent: 'center'}} component="form" noValidate autoComplete="off">
-            <FormControl   sx={{border: '1px solid gray', paddingTop: '20px', paddingLeft: '50px', paddingBottom: '15px', paddingRight: '50px'}}>
-    
-            Email: <TextField sx={{width: '100vh'}} onChange={(newValue) => setEmail(newValue.target.value)}  label={'Please enter your Email'} id="email" margin="normal" />
-            Description: <TextField fullWidth onChange={(newValue) => setDescription(newValue.target.value)} label={'Please enter your Description'} id="Description" margin="normal" />
-           
-            <Button onClick={e => handleSubmit(e)} variant="contained" color="success" sx={{marginTop: '15px', display: 'flex', justifyContent: 'center'}}>
-                Submit
-            </Button>
-            <ToastContainer />
-            </FormControl>
+
+            <Box sx={{ marginTop: '100px', display: 'flex', justifyContent: 'center' }} component="form" noValidate autoComplete="off">
+                <FormControl sx={{ border: '1px solid gray', paddingTop: '20px', paddingLeft: '50px', paddingBottom: '15px', paddingRight: '50px' }}>
+
+                    Email: <TextField sx={{ width: '100vh' }} onChange={(newValue) => setEmail(newValue.target.value)} label={'Please enter your Email'} id="email" margin="normal" />
+                    Description: <TextField fullWidth onChange={(newValue) => setDescription(newValue.target.value)} label={'Please enter your Description'} id="Description" margin="normal" />
+
+                    <Button onClick={e => handleSubmit(e)} variant="contained" color="success" sx={{ marginTop: '15px', display: 'flex', justifyContent: 'center' }}>
+                        Submit
+                    </Button>
+                    <ToastContainer />
+                </FormControl>
             </Box>
         </>
     )
