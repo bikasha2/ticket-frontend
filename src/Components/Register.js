@@ -50,7 +50,7 @@ function Register() {
             }
         }
         // Request Body
-        axios.post("http://localhost:3002/api/users/register", body, config)
+        axios.post("https://ticket-backend-eqk1.onrender.com/api/users/register", body, config)
             .then(function (response) {
                 console.log(response);
                 successToastMessage(response)

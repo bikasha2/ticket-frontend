@@ -44,7 +44,7 @@ function Dashboard() {
             }
         }
         // Request Body
-        axios.post("http://localhost:3002/api/tickets", body, config)
+        axios.post("https://ticket-backend-eqk1.onrender.com/api/tickets", body, config)
             .then(function (response) {
                 if(response.status === 200) {
                     console.log(response);

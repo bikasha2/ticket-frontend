@@ -29,7 +29,7 @@ function ViewTicket() {
     }
 
     function getData(token, config) {
-        axios.get("http://localhost:3002/api/tickets", config)
+        axios.get("https://ticket-backend-eqk1.onrender.com/api/tickets", config)
         .then(function (response) {
             setData(response.data)
         })
@@ -48,7 +48,7 @@ function ViewTicket() {
             }
         }
         // Request Body
-        axios.delete(`http://localhost:3002/api/ticket/${id}`, config)
+        axios.delete(`https://ticket-backend-eqk1.onrender.com/api/ticket/${id}`, config)
             .then(function (response) {
                 console.log(response)
                 getData(userToken, config)
