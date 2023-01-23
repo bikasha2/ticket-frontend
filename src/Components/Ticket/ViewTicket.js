@@ -4,7 +4,6 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
-import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -12,7 +11,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
+
 
 const deleteTicketToast = () => {
     toast.success('Ticket has been deleted successfully !', {
@@ -20,6 +19,17 @@ const deleteTicketToast = () => {
     });
 };
 
+const completeTicketToast = () => {
+    toast.success('Ticket has been marked completed !', {
+        position: toast.POSITION.TOP_RIGHT
+    });
+};
+
+const uncompleteTicketToast = () => {
+    toast.success('Ticket has been marked uncompleted !', {
+        position: toast.POSITION.TOP_RIGHT
+    });
+};
 function ViewTicket() {
 
     const [data, setData] = useState([])
@@ -34,8 +44,13 @@ function ViewTicket() {
         history.push('/')
     }
 
-    function getData(token, config) {
-        axios.get("https://ticket-backend-eqk1.onrender.com/api/tickets", config)
+    function getData(token) {
+        axios.get("http://localhost:3002/api/tickets",  {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": token
+            }
+        })
             .then(function (response) {
                 setData(response.data)
             })
@@ -53,10 +68,43 @@ function ViewTicket() {
             }
         }
         // Request Body
-        axios.delete(`https://ticket-backend-eqk1.onrender.com/api/ticket/${id}`, config)
+        axios.delete(`http://localhost:3002/api/ticket/${id}`, config)
             .then(function (response) {
-                getData(userToken, config)
+                getData(userToken)
                 deleteTicketToast()
+            })
+    }
+
+    const completeTicket = (e, id) => {
+        e.preventDefault()
+       
+        // headers
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+               
+            }
+        }
+        // Request Body
+        axios.put(`http://localhost:3002/api/ticket/completed/${id}`, config)
+            .then(function (response) {
+                getData(userToken)
+                completeTicketToast()
+            })
+    }
+    const unCompleteTicket = (e, id) => {
+        e.preventDefault()
+        // headers
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+            }
+        }
+        // Request Body
+        axios.put(`http://localhost:3002/api/ticket/uncompleted/${id}`, config)
+            .then(function (response) {
+                getData(userToken)
+                uncompleteTicketToast()
             })
     }
 
@@ -65,15 +113,7 @@ function ViewTicket() {
     useEffect(() => {
         const token = location.state
         setUserToken(token)
-        // headers
-        const config = {
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": token
-            }
-        }
-        // Request Body
-        getData(token, config)
+        getData(token)
     }, [location]);
 
 
@@ -103,21 +143,42 @@ function ViewTicket() {
 
             <Card >
                 <CardContent>
-                    {data.map(item => (
-                        <CardContent key={item._id} sx={{ border: '1px solid gray', marginTop: '2px' }}>
+                    {data.map(item => {
+                    return item.ticket === true ?
+                      <CardContent key={item._id} sx={{ border: '1px solid gray', marginTop: '5px' }}>
                             <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                                <Checkbox {...label} />
+                                {/* <Checkbox {...label} /> */}
                                 Email: {item.email} &nbsp;
                                 Description: {item.description}  &nbsp;
                                 Date: {item.date} &nbsp;
                                 Time: {item.time}
-                                <Button onClick={e => deleteTicket(e, item._id)} sx={{ float: 'right', color: 'red' }} variant="outlined" startIcon={<DeleteIcon />}>
+                               
+                                <Button onClick={e => deleteTicket(e, item._id)} sx={{ float: 'right',  backgroundColor: '#FF0000', color: 'white', marginLeft: '10px', "&:hover": { border: "1px solid white",color: 'white',backgroundColor: 'red'} }} variant="outlined" startIcon={<DeleteIcon />}>
                                     Delete
+                                </Button>
+                                <Button onClick={e => completeTicket(e, item._id)} sx={{ float: 'right', backgroundColor: 'green', color: 'white', "&:hover": { border: "1px solid white",color: 'green',backgroundColor: 'lightgreen'} }} variant="outlined" startIcon={<DeleteIcon />}>
+                                    Complete
                                 </Button>
                             </Typography>
 
-                        </CardContent>
-                    ))}
+                        </CardContent> : 
+                        <CardContent key={item._id} sx={{ border: '1px solid gray', marginTop: '5px', backgroundColor: 'lightgreen' }}>
+                        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                            {/* <Checkbox {...label} /> */}
+                            Email: {item.email} &nbsp;
+                            Description: {item.description}  &nbsp;
+                            Date: {item.date} &nbsp;
+                            Time: {item.time}
+                            <Button onClick={e => deleteTicket(e, item._id)} sx={{ float: 'right', backgroundColor: '#FF0000', color: 'white', marginLeft: '10px', "&:hover": { border: "1px solid white",color: 'white',backgroundColor: 'red'} }} variant="outlined" startIcon={<DeleteIcon />}>
+                                Delete
+                            </Button>
+                            <Button onClick={e => unCompleteTicket(e, item._id)} sx={{ float: 'right', backgroundColor: '#FF0000', color: 'white', "&:hover": { border: "1px solid white",color: 'white',backgroundColor: 'red'}}} variant="outlined" startIcon={<DeleteIcon />}>
+                                    unComplete
+                                </Button>
+                        </Typography>
+
+                    </CardContent>
+                    })}
                 </CardContent>
                 <ToastContainer />
             </Card>

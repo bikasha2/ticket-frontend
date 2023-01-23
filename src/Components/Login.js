@@ -76,8 +76,8 @@ function Login() {
     return (
         <>
             <Box sx={{ fontWeight: 'Bold', padding: '20px' }}>
-                <Button variant="contained" color='success' sx={{ fontWeight: 'Bold', float: 'right' }} onClick={e => history.push('/register')}>Register</Button>
-                <Button variant="contained" color='success' sx={{ fontWeight: 'Bold', float: 'left' }} onClick={e => history.push('/')}>Dashboard</Button>
+                {/* <Button variant="contained" color='success' sx={{ fontWeight: 'Bold', float: 'right' }} onClick={e => history.push('/register')}>Register</Button> */}
+                <Button variant="contained" color='success' sx={{ fontWeight: 'Bold', float: 'right' }} onClick={e => history.push('/')}>Dashboard</Button>
             </Box>
             <Grid
                 container
