@@ -14,27 +14,27 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
-
+const deleteTicketToast = () => {
+    toast.success('Ticket has been deleted successfully !',{
+        position: toast.POSITION.TOP_RIGHT
+    });
+};
 
 function ViewTicket() {
 
     const [data, setData] = useState([])
     const [userToken, setUserToken] = useState("")
     const history = useHistory()
+
     const location = useLocation();
 
-    const ticketDeletedToast = () => {
-        toast.success('Ticket has been deleted successfully !',{
-            position: toast.POSITION.TOP_RIGHT
-        });
-    };
     const logout = (e) => {
         e.preventDefault()
           localStorage.clear('token');
         history.push('/')
     }
 
-    function getData(config) {
+    function getData(token, config) {
         axios.get("https://ticket-backend-eqk1.onrender.com/api/tickets", config)
         .then(function (response) {
             setData(response.data)
@@ -57,8 +57,8 @@ function ViewTicket() {
         axios.delete(`https://ticket-backend-eqk1.onrender.com/api/ticket/${id}`, config)
             .then(function (response) {
                 console.log(response)
-                ticketDeletedToast()
                 getData(userToken, config)
+                deleteTicketToast()
             })
     }
 
@@ -75,7 +75,7 @@ function ViewTicket() {
             }
         }
         // Request Body
-       getData(config)
+       getData(token, config)
     }, [location]);
 
 
