@@ -17,7 +17,7 @@ function Login() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [role, setRole] = useState("");
+    const [role, setRole] = useState("IT Staff");
 
 
 
@@ -105,11 +105,12 @@ function Login() {
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                         value={role}
-                        label="Age"
+                        label="Role"
                         onChange={(newValue) => setRole(newValue.target.value)}
                         sx={{ width: '30vh', marginTop: '10px' }}
                     >
-                        <MenuItem value={"IT Staff"}>IT Admin</MenuItem>
+                        <MenuItem value={"IT Admin"}>IT Admin</MenuItem>
+                        <MenuItem value={"IT Staff"}>IT Staff</MenuItem>
                     </Select>
                     <Button onClick={e => handleSumbit(e)} variant="contained" color="success" sx={{ marginTop: '15px', display: 'flex', justifyContent: 'center' }}>
                         Submit

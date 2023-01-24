@@ -6,6 +6,8 @@ import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
 import { ToastContainer, toast } from 'react-toastify';
 import { useHistory } from 'react-router-dom';
 
@@ -15,6 +17,7 @@ function Dashboard() {
 
     const [email, setEmail] = useState("");
     const [description, setDescription] = useState("");
+    const [product, setProduct] = useState("Website");
 
 
     const showToastMessage = () => {
@@ -36,7 +39,8 @@ function Dashboard() {
         e.preventDefault()
         const body = {
             email: email,
-            description: description
+            description: description,
+            product: product,
         }
         const config = {
             headers: {
@@ -90,7 +94,20 @@ function Dashboard() {
 
                     Email: <TextField sx={{ width: '100vh' }} onChange={(newValue) => setEmail(newValue.target.value)} label={'Please enter your Email'} id="email" margin="normal" />
                     Description: <TextField fullWidth onChange={(newValue) => setDescription(newValue.target.value)} label={'Please enter your Description'} id="Description" margin="normal" />
-
+                    <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={product}
+                        label="Product"
+                        onChange={(newValue) => setProduct(newValue.target.value)}
+                        sx={{ width: '30vh', marginTop: '10px' }}
+                    >
+                        <MenuItem value={"Website"}>Website</MenuItem>
+                        <MenuItem value={"MobileApp"}>MobileApp</MenuItem>
+                        <MenuItem value={"Subscription"}>Subscription</MenuItem>
+                        <MenuItem value={"General"}>General</MenuItem>
+                        <MenuItem value={"Other"}>Other</MenuItem>
+                    </Select>
                     <Button onClick={e => handleSubmit(e)} variant="contained" color="success" sx={{ marginTop: '15px', display: 'flex', justifyContent: 'center' }}>
                         Submit
                     </Button>
