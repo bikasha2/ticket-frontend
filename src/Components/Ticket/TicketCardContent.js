@@ -10,6 +10,8 @@ import ClearIcon from '@mui/icons-material/Clear';
 import DoneIcon from '@mui/icons-material/Done';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import CommentBox from './CommentBox';
+import { Typography } from '@mui/material';
 
 
 const deleteTicketToast = () => {
@@ -112,59 +114,78 @@ function TicketCardContet({item, userToken, getData}) {
              <CardContent sx={item.ticket?{...cardStyle, backgroundColor: 'lightgreen'}: cardStyle}>
                                 <Box sx={{ fontSize: 14 }} color="text.secondary" >
 
-                                    <Box fontWeight={"bold"}>
+                                    <Box fontWeight={"bold"} sx={{marginTop: '10px'}}>
                                         Email :
                                     </Box> {item.email} &nbsp;
 
-                                    <Box fontWeight={"bold"}>
+                                    <Box fontWeight={"bold"} sx={{marginTop: '10px'}}>
                                         Description :
                                     </Box> {item.description}
 
-                                    <Box fontWeight={"bold"}>
+                                    <Box fontWeight={"bold"} sx={{marginTop: '10px'}}>
                                         Product :
                                     </Box> {item.product} &nbsp;
 
-                                    <Box fontWeight={"bold"}>
+                                    <Box fontWeight={"bold"} sx={{marginTop: '10px'}}>
                                         Date :
                                     </Box>  {item.date} &nbsp;
 
-                                    <Box fontWeight={"bold"}>
+                                    <Box fontWeight={"bold"} sx={{marginTop: '10px'}}>
                                         Time :
                                     </Box> {item.time} &nbsp;
 
-                                    <Box fontWeight={"bold"}>
+                                    <Box fontWeight={"bold"} sx={{marginTop: '10px'}}>
                                         Assigne :
                                     </Box> {item.assigne} &nbsp;
 
-
-
-                                    <Box sx={{ display: 'flex', flexDirection: 'column-reverse', width: '30vh' }}>
-                                        <Button onClick={e => deleteTicket(e, item._id)} sx={{ float: 'right', backgroundColor: '#FF0000', marginTop: '10px', color: 'white', "&:hover": { border: "1px solid white", color: 'white', backgroundColor: 'red' } }} variant="outlined" startIcon={<DeleteIcon />}>
-                                            Delete
-                                        </Button>
-                                        <Button onClick={e => completeTicket(e, item._id)} sx={{ float: 'right', backgroundColor: 'green', marginTop: '10px', color: 'white', "&:hover": { border: "1px solid white", color: 'green', backgroundColor: 'lightgreen' } }} variant="outlined" startIcon={<DoneIcon />}>
-                                            Complete
-                                        </Button>
-                                        <Button onClick={e => unCompleteTicket(e, item._id)} sx={{ float: 'right', backgroundColor: 'red', marginTop: '10px', color: 'white', "&:hover": { border: "1px solid white", color: 'white', backgroundColor: 'red' } }} variant="outlined" startIcon={<ClearIcon />}>
-                                            Uncomplete
-                                        </Button>
-                                        <Button sx={{ border: '1px solid black', marginTop: '10px', backgroundColor: 'white' }} onClick={e => assigneTicket(e, item._id)}>
-                                            Change Assigne
-                                        </Button>
-                                        <Select
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
-                                            value={assigne}
-                                            label="Assigne"
-                                            onChange={(newValue) => setAssigne(newValue.target.value)}
-                                            sx={{ border: '1px solid black', backgroundColor: 'white', marginTop: '10px' }}
-                                        >
-                                            <MenuItem value={"IT Admin"}>IT Admin</MenuItem>
-                                            <MenuItem value={"IT Staff"}>IT Staff</MenuItem>
-                                        </Select>
-
+                                    <Box fontWeight={"bold"} sx={{marginTop: '10px'}}>
+                                        Comments :
                                     </Box>
+                                    {item.comments.map(element=> {
+                                        return(
+                                        <Box sx={{marginTop: '10px'}}>
+                                            {element}&nbsp;
+                                        </Box> 
+                                        
+                                        )  
+                                    })}
 
+
+                                <Box >
+                                        <Box sx={{ display: 'flex', flexDirection: 'column-reverse', width: '30vh' }}>
+                                                <Button onClick={e => deleteTicket(e, item._id)} sx={{ float: 'right', backgroundColor: '#FF0000', marginTop: '10px', color: 'white', "&:hover": { border: "1px solid white", color: 'white', backgroundColor: 'red' } }} variant="outlined" startIcon={<DeleteIcon />}>
+                                                    Delete
+                                                </Button>
+                                                <Button onClick={e => completeTicket(e, item._id)} sx={{ float: 'right', backgroundColor: 'green', marginTop: '10px', color: 'white', "&:hover": { border: "1px solid white", color: 'green', backgroundColor: 'lightgreen' } }} variant="outlined" startIcon={<DoneIcon />}>
+                                                    Complete
+                                                </Button>
+                                                <Button onClick={e => unCompleteTicket(e, item._id)} sx={{ float: 'right', backgroundColor: 'red', marginTop: '10px', color: 'white', "&:hover": { border: "1px solid white", color: 'white', backgroundColor: 'red' } }} variant="outlined" startIcon={<ClearIcon />}>
+                                                    Uncomplete
+                                                </Button>
+                                                <Button sx={{ border: '1px solid black', marginTop: '10px', backgroundColor: 'white' }} onClick={e => assigneTicket(e, item._id)}>
+                                                    Change Assigne
+                                                </Button>
+                                                <Select
+                                                    labelId="demo-simple-select-label"
+                                                    id="demo-simple-select"
+                                                    value={assigne}
+                                                    label="Assigne"
+                                                    onChange={(newValue) => setAssigne(newValue.target.value)}
+                                                    sx={{ border: '1px solid black', backgroundColor: 'white', marginTop:   '10px' }}
+                                                >
+                                                    <MenuItem value={"IT Admin"}>IT Admin</MenuItem>
+                                                    <MenuItem value={"IT Staff"}>IT Staff</MenuItem>
+                                                </Select>
+                                               
+                                                <CommentBox userToken={userToken} getData={getData} id={item._id}/>
+                                               
+                                                <Typography sx={{marginTop: '10px'}}>
+                                                Comment Box :
+                                               </Typography>
+
+                                            </Box>
+                                </Box >
+                                    
 
                                 </Box>
                             </CardContent>
