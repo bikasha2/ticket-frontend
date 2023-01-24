@@ -30,7 +30,7 @@ function ViewTicket() {
     }
 
     function getData(token) {
-        axios.get("http://localhost:3002/api/tickets", {
+        axios.get("https://ticket-backend-eqk1.onrender.com/api/tickets", {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": token

@@ -50,7 +50,7 @@ function TicketCardContet({item, userToken, getData}) {
             }
         }
         // Request Body
-        axios.delete(`http://localhost:3002/api/ticket/${id}`, config)
+        axios.delete(`https://ticket-backend-eqk1.onrender.com/api/ticket/${id}`, config)
             .then(function (response) {
                 getData(userToken)
                 deleteTicketToast()
@@ -68,7 +68,7 @@ function TicketCardContet({item, userToken, getData}) {
             }
         }
         // Request Body
-        axios.put(`http://localhost:3002/api/ticket/completed/${id}`, config)
+        axios.put(`https://ticket-backend-eqk1.onrender.com/api/ticket/completed/${id}`, config)
             .then(function (response) {
                 getData(userToken)
                 completeTicketToast()
@@ -83,7 +83,7 @@ function TicketCardContet({item, userToken, getData}) {
             }
         }
         // Request Body
-        axios.put(`http://localhost:3002/api/ticket/uncompleted/${id}`, config)
+        axios.put(`https://ticket-backend-eqk1.onrender.com/api/ticket/uncompleted/${id}`, config)
             .then(function (response) {
                 getData(userToken)
                 uncompleteTicketToast()
@@ -99,7 +99,7 @@ function TicketCardContet({item, userToken, getData}) {
             }
         }
         // Request Body
-        axios.put(`http://localhost:3002/api/ticket/assigne/${id}`, { assigne }, config)
+        axios.put(`https://ticket-backend-eqk1.onrender.com/api/ticket/assigne/${id}`, { assigne }, config)
             .then(function (response) {
                 getData(userToken)
                 assigneTicketToast()
