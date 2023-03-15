@@ -13,7 +13,7 @@ import AuthContext from './Context/AuthContext';
 
 function App() {
  
-  const {authState,setAuthState} = useContext(AuthContext);
+  const {authState} = useContext(AuthContext);
 
   return (
     <>

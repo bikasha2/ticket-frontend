@@ -6,25 +6,20 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import TicketCardContet from './TicketCardContent';
 import AuthContext from '../../Context/AuthContext';
 import CircularProgressWithLabel from "./Spinner"
 
-
-
-
 function ViewTicket() {
     const {authState,setAuthState} = useContext(AuthContext);
   
     const [data, setData] = useState([])
-    const [userToken, setUserToken] = useState("")
     const [isFetching, setIsFetching] = useState(true); 
     const history = useHistory()
 
-    const location = useLocation();
 
 
     const logout = (e) => {
@@ -48,9 +43,7 @@ function ViewTicket() {
     }
 
     useEffect(() => {
-        const token = location.state
-        setUserToken(token)
-        getData(token)
+        getData()
     }, []);
 
     if (isFetching) {
@@ -88,8 +81,8 @@ function ViewTicket() {
             <Card >
                 {data.map(item => {
                     return (
-                        <CardContent >
-                            <TicketCardContet key={item._id} userToken={userToken} getData={getData} item={item}> </TicketCardContet>
+                        <CardContent key={item.email}>
+                            <TicketCardContet getData={getData} item={item}> </TicketCardContet>
                         </CardContent>
                     )
                 })}

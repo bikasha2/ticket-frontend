@@ -17,12 +17,10 @@ import AuthContext from '../Context/AuthContext';
 
 
 function Login() {
-    const {authState,setAuthState} = useContext(AuthContext);
+    const {setAuthState} = useContext(AuthContext);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [role, setRole] = useState("IT Staff");
-
-    console.log(authState)
 
     const showToastMessage = () => {
         toast.success('login successfully', {

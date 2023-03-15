@@ -14,7 +14,7 @@ import AuthContext from '../../Context/AuthContext';
 import * as ticketService from '../../service/ticketService'
 import * as toast from '../../toast/toast'
 
-function TicketCardContet({ item, userToken, getData }) {
+function TicketCardContet({ item, getData }) {
 
     const { authState } = useContext(AuthContext);
     const [assigne, setAssigne] = useState("IT Staff")
@@ -22,7 +22,7 @@ function TicketCardContet({ item, userToken, getData }) {
     const deleteTicket = (e, id) => {
         ticketService.deletedTicket({ id, authState })
             .then(function () {
-                getData(userToken)
+                getData()
                 toast.deleteTicketToast()
             })
             .catch(function (err) {
@@ -33,7 +33,7 @@ function TicketCardContet({ item, userToken, getData }) {
     const completeTicket = (e, id) => {
         ticketService.ticketCompleted({ id })
             .then(function () {
-                getData(userToken)
+                getData()
                 toast.completeTicketToast()
             })
             .catch(function (err) {
@@ -43,7 +43,7 @@ function TicketCardContet({ item, userToken, getData }) {
     const unCompleteTicket = (e, id) => {
         ticketService.ticketUncompleted({ id })
             .then(function () {
-                getData(userToken)
+                getData()
                 toast.uncompleteTicketToast()
             })
             .catch(function (err) {
@@ -54,7 +54,7 @@ function TicketCardContet({ item, userToken, getData }) {
     const assigneTicket = (e, id) => {
         ticketService.assigneTickets({ id, assigne })
             .then(function () {
-                getData(userToken)
+                getData()
                 toast.assigneTicketToast()
             })
             .catch(function (err) {
@@ -127,7 +127,7 @@ function TicketCardContet({ item, userToken, getData }) {
                                 <MenuItem value={"IT Admin"}>IT Admin</MenuItem>
                                 <MenuItem value={"IT Staff"}>IT Staff</MenuItem>
                             </Select>
-                            <CommentBox userToken={userToken} getData={getData} id={item._id} />
+                            <CommentBox  getData={getData} id={item._id} />
                             <Typography sx={{ marginTop: '10px' }}>
                                 Comment Box :
                             </Typography>
