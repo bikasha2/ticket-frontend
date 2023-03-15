@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios'
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
@@ -11,16 +11,18 @@ import 'react-toastify/dist/ReactToastify.css';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import { useHistory } from 'react-router-dom';
+import AuthContext from '../Context/AuthContext';
+
+
 
 
 function Login() {
-
+    const {authState,setAuthState} = useContext(AuthContext);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [role, setRole] = useState("IT Staff");
 
-
-
+    console.log(authState)
 
     const showToastMessage = () => {
         toast.success('login successfully', {
@@ -38,6 +40,7 @@ function Login() {
 
     function handleSumbit(e) {
         e.preventDefault()
+
         const body = {
             email: email,
             password: password,
@@ -52,19 +55,11 @@ function Login() {
         axios.post("https://ticket-backend-eqk1.onrender.com/api/users/login", body, config)
             .then(function (response) {
                 if (response.status === 200) {
+                    showToastMessage()
                     let tokst = response.data.token
                     window.localStorage.setItem('token', tokst)
-                    showToastMessage()
-                    setTimeout(() => {
-                        history.push({
-                            pathname: '/tickets',
-                            state: tokst
-                        })
-                    }, 1000)
-
+                    setAuthState({token: tokst, isAuthenticated: true })
                 }
-
-
             }).catch((err) => {
                 errorToastMessage()
             })
@@ -73,10 +68,11 @@ function Login() {
 
     }
 
+   
+
     return (
         <>
             <Box sx={{ fontWeight: 'Bold', padding: '20px' }}>
-                {/* <Button variant="contained" color='success' sx={{ fontWeight: 'Bold', float: 'right' }} onClick={e => history.push('/register')}>Register</Button> */}
                 <Button variant="contained" color='success' sx={{ fontWeight: 'Bold', float: 'right' }} onClick={e => history.push('/')}>Dashboard</Button>
             </Box>
             <Grid
@@ -97,10 +93,10 @@ function Login() {
 
             <Box sx={{ marginTop: '30px', display: 'flex', justifyContent: 'center' }} component="form" noValidate autoComplete="off">
                 <FormControl sx={{ border: '1px solid gray', paddingTop: '20px', paddingLeft: '50px', paddingBottom: '15px', paddingRight: '50px' }}>
-                    Email: <TextField onChange={(newValue) => setEmail(newValue.target.value)} sx={{ width: '100%' }} label={'Please enter your Email'} id="email" margin="normal" />
+                    Email: <TextField onChange={(newValue) => setEmail(newValue.target.value)} sx={{ width: '100%' }} id="email" margin="normal" />
                     Password: <TextField
                         type="password"
-                        onChange={(newValue) => setPassword(newValue.target.value)} sx={{ width: '100%' }} label={'Please enter your Password'} id="Password" margin="normal" />
+                        onChange={(newValue) => setPassword(newValue.target.value)} sx={{ width: '100%' }} id="Password" margin="normal" />
                     Role: <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
@@ -113,8 +109,10 @@ function Login() {
                         <MenuItem value={"IT Staff"}>IT Staff</MenuItem>
                     </Select>
                     <Button onClick={e => handleSumbit(e)} variant="contained" color="success" sx={{ marginTop: '15px', display: 'flex', justifyContent: 'center' }}>
-                        Submit
+                            Submit
                     </Button>
+                           
+
                     <Typography mt={3} fontWeight='medium' component='div'>
                         For Test Drive:
                         &nbsp;

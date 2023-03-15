@@ -1,32 +1,38 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
+import React, {useContext} from 'react';
+import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom"
 
 import Dashboard from './Components/UserDashboard/Dashboard';
 import Login from './Components/Login';
-// import Register from './Components/Register';
 import ViewTicket from "./Components/Ticket/ViewTicket";
 import NoMatch from './Components/NoMatch';
 import './App.css';
+import AuthContext from './Context/AuthContext';
+
+
 
 
 function App() {
-  // const token = window.localStorage.getItem('token')
+ 
+  const {authState,setAuthState} = useContext(AuthContext);
+
   return (
     <>
-      <Router>
-        <Switch>
-          <Route exact path="/" component={Dashboard} />
-          <Route exact path="/login" component={Login} />
-          {/* <Route exact path="/register" component={Register} /> */}
-          {/* {
-            token ? <Route exact path="/tickets" component={ViewTicket} /> :  <Route exact path="/" component={Dashboard} />
-          } */}
-          <Route exact path="/tickets" component={ViewTicket} />
-          <Route exact path="*" component={NoMatch} />
-        
-        </Switch>
-      </Router>
-     
+   
+    <Router>
+      <Switch>
+        <Route exact path="/" component={Dashboard}>
+         
+        </Route>
+        <Route exact path="/login" >
+        {authState.isAuthenticated ? <Redirect to="/tickets" /> : <Login />}
+        </Route>
+          <Route exact path="/tickets"  >
+          {!authState.isAuthenticated ? <Redirect to="/login" /> : <ViewTicket />}
+          </Route>
+        <Route exact path="*" component={NoMatch} />
+      </Switch>
+    </Router>
+  
     </>
   );
 }

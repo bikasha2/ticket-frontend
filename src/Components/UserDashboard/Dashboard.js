@@ -58,9 +58,6 @@ function Dashboard() {
             }).catch((err) => {
                 errorToastMessage();
             })
-
-
-
     }
 
     function login(e) {
@@ -92,8 +89,8 @@ function Dashboard() {
             <Box sx={{ marginTop: '100px', display: 'flex', justifyContent: 'center' }} component="form" noValidate autoComplete="off">
                 <FormControl sx={{ border: '1px solid gray', paddingTop: '20px', paddingLeft: '50px', paddingBottom: '15px', paddingRight: '50px' }}>
 
-                    Email: <TextField sx={{ width: '100vh' }} onChange={(newValue) => setEmail(newValue.target.value)} label={'Please enter your Email'} id="email" margin="normal" />
-                    Description: <TextField fullWidth onChange={(newValue) => setDescription(newValue.target.value)} label={'Please enter your Description'} id="Description" margin="normal" />
+                    Email: <TextField sx={{ width: '100vh' }} value={email} onChange={(newValue) => setEmail(newValue.target.value)}  id="email" margin="normal" />
+                    Description: <TextField fullWidth value={description} onChange={(newValue) => setDescription(newValue.target.value)}  id="Description" margin="normal" />
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"

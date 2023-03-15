@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import axios from 'axios'
+import React, { useState, useContext } from 'react';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
@@ -12,6 +11,8 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CommentBox from './CommentBox';
 import { Typography } from '@mui/material';
+import AuthContext from '../../Context/AuthContext';
+import * as ticketService from '../../service/ticketService'
 
 
 const deleteTicketToast = () => {
@@ -19,9 +20,21 @@ const deleteTicketToast = () => {
         position: toast.POSITION.TOP_RIGHT
     });
 };
+const ErrordeleteTicketToast = () => {
+    toast.error('Cannot delet Ticket !', {
+        position: toast.POSITION.TOP_RIGHT
+    });
+};
+
 
 const completeTicketToast = () => {
     toast.success('Ticket has been marked completed !', {
+        position: toast.POSITION.TOP_RIGHT
+    });
+};
+
+const ErrorcompleteTicketToast = () => {
+    toast.success('Error in marking ticket complete !', {
         position: toast.POSITION.TOP_RIGHT
     });
 };
@@ -31,80 +44,70 @@ const uncompleteTicketToast = () => {
         position: toast.POSITION.TOP_RIGHT
     });
 };
+
+const ErroruncompleteTicketToast = () => {
+    toast.success('Error in marking ticket uncomplete !', {
+        position: toast.POSITION.TOP_RIGHT
+    });
+};
+
 const assigneTicketToast = () => {
-    toast.success('Ticket has been assigned !', {
+    toast.success('Assignee has been changed successfully !', {
+        position: toast.POSITION.TOP_RIGHT
+    });
+};
+
+const ErrorassigneTicketToast = () => {
+    toast.success('Error in changing assignee !', {
         position: toast.POSITION.TOP_RIGHT
     });
 };
 
 function TicketCardContet({item, userToken, getData}) {
 
-
+    const {authState} = useContext(AuthContext);
     const [assigne, setAssigne] = useState("IT Staff")
 
     const deleteTicket = (e, id) => {
-        e.preventDefault()
-        // headers
-        const config = {
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": userToken
-            }
-        }
-        // Request Body
-        axios.delete(`https://ticket-backend-eqk1.onrender.com/api/ticket/${id}`, config)
-            .then(function (response) {
+        ticketService.deletedTicket({id, authState})
+            .then(function () {
                 getData(userToken)
                 deleteTicketToast()
+            })
+            .catch(function(err){
+                ErrordeleteTicketToast()
             })
     }
 
     const completeTicket = (e, id) => {
-        e.preventDefault()
-
-        // headers
-        const config = {
-            headers: {
-                "Content-Type": "application/json",
-
-            }
-        }
-        // Request Body
-        axios.put(`https://ticket-backend-eqk1.onrender.com/api/ticket/completed/${id}`, config)
-            .then(function (response) {
+        ticketService.ticketCompleted({id})
+            .then(function () {
                 getData(userToken)
                 completeTicketToast()
             })
+            .catch(function(err){
+                ErrorcompleteTicketToast()
+            })
     }
     const unCompleteTicket = (e, id) => {
-        e.preventDefault()
-        // headers
-        const config = {
-            headers: {
-                "Content-Type": "application/json",
-            }
-        }
-        // Request Body
-        axios.put(`https://ticket-backend-eqk1.onrender.com/api/ticket/uncompleted/${id}`, config)
-            .then(function (response) {
+       ticketService.ticketUncompleted({id})
+            .then(function () {
                 getData(userToken)
                 uncompleteTicketToast()
+            })
+            .catch(function(err){
+                ErroruncompleteTicketToast()
             })
     }
 
     const assigneTicket = (e, id) => {
-        e.preventDefault()
-        // headers
-        const config = {
-            headers: {
-                "Content-Type": "application/json",
-            }
-        }
-        // Request Body
-        axios.put(`https://ticket-backend-eqk1.onrender.com/api/ticket/assigne/${id}`, { assigne }, config)
-            .then(function (response) {
+            ticketService.assigneTickets({id, assigne})
+            .then(function () {
                 getData(userToken)
                 assigneTicketToast()
+            })
+            .catch(function(err){
+                ErrorassigneTicketToast()
             })
     }
     const cardStyle = { border: '1px solid gray', marginTop: '5px' }

@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const INITIAL_HEIGHT = 46;
 
 const commentTicketToast = () => {
-    toast.success('Ticket has been assigned !', {
+    toast.success('Comment has been added successfully !', {
         position: toast.POSITION.TOP_RIGHT
     });
 };
@@ -54,6 +54,7 @@ const CommentBox = ({userToken, getData, id}) => {
                 getData(userToken)
                 commentTicketToast()
             })
+        setcomments("");
        
        
     }
@@ -72,16 +73,6 @@ const CommentBox = ({userToken, getData, id}) => {
                 minHeight: isExpanded ? outerHeight.current : INITIAL_HEIGHT
             }}
         >
-            {/* <div className="header">
-                <div className="user">
-                    <img
-                        src="avatar/path"
-                        alt="User avatar"
-                    />
-                    <span>User Name</span>
-                </div>
-            </div>
-            <div className="header"> ... </div> */}
 
             <label htmlFor="comment">What are your thoughts?</label>
             <textarea
@@ -102,7 +93,7 @@ const CommentBox = ({userToken, getData, id}) => {
                     Cancel
                 </button>
                 <button onClick={e => submitHandler(e)} type="submit" disabled={comments.length < 1}>
-                    Respond
+                    Post Comment
                 </button>
             </div>
         </form>
